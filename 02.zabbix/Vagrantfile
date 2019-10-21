@@ -1,0 +1,23 @@
+Vagrant.configure("2") do |cfg|
+    cfg.vm.box="sbeliakou/centos"
+
+    cfg.vm.define "zserver" do |zs|
+	      zs.vm.hostname = "zserver"
+	      zs.vm.network "private_network", ip: "192.168.56.110"
+	      zs.vm.provision "shell", path: "zsrv_d2.sh"
+        zs.vm.provider "virtualbox" do |vb1|
+          vb1.name = "zserver"
+          vb1.memory = "2048"
+			    end
+		end
+
+    cfg.vm.define "zagent" do |ag|
+	      ag.vm.hostname = "zagent"
+	      ag.vm.network "private_network", ip: "192.168.56.111"
+	      ag.vm.provision "shell", path: "zag_d2.sh", run: 'always'
+	      ag.vm.provider "virtualbox" do |vb2|
+	        vb2.name = "zagent"
+	        vb2.memory = "2048"
+		      end
+    end
+end
