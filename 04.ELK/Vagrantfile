@@ -1,0 +1,23 @@
+Vagrant.configure("2") do |cfg|
+    cfg.vm.box="sbeliakou/centos"
+
+    cfg.vm.define "elastic" do |zs|
+	      zs.vm.hostname = "elastic"
+	      zs.vm.network "private_network", ip: "192.168.56.110"
+	      zs.vm.provision "shell", path: "zsrv_d3.sh"
+        zs.vm.provider "virtualbox" do |vb1|
+          vb1.name = "elastic"
+          vb1.memory = "2048"
+			    end
+		end
+
+    cfg.vm.define "logtom" do |ag|
+	      ag.vm.hostname = "logtom"
+	      ag.vm.network "private_network", ip: "192.168.56.111"
+	      ag.vm.provision "shell", path: "zag_d3.sh"
+	      ag.vm.provider "virtualbox" do |vb2|
+	        vb2.name = "logtom"
+	        vb2.memory = "2048"
+		      end
+    end
+end
